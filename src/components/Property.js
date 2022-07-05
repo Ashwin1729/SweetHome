@@ -1,4 +1,4 @@
-import { Link } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { Image } from "@chakra-ui/react";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Avatar } from "@chakra-ui/avatar";
@@ -22,7 +22,7 @@ const Property = ({
     externalID,
   },
 }) => (
-  <Link href={`/property/${externalID}`} passHref>
+  <Link to={`/property/${externalID}`}>
     <Flex
       flexWrap="wrap"
       w="420px"

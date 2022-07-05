@@ -1,4 +1,4 @@
-import { Link } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import {
   Menu,
   MenuButton,
@@ -16,7 +16,7 @@ import { FiKey } from "react-icons/fi";
 const Navbar = () => (
   <Flex p="2" borderBottom="1px" borderColor="gray.100">
     <Box fontSize="3xl" color="blue.400" fontWeight="bold">
-      <Link to="/" paddingLeft="2">
+      <Link to="/" paddingleft="2">
         Realtor
       </Link>
     </Box>
@@ -30,16 +30,16 @@ const Navbar = () => (
           color="red.400"
         />
         <MenuList>
-          <Link href="/" passHref>
+          <Link to="/">
             <MenuItem icon={<FcHome />}>Home</MenuItem>
           </Link>
-          <Link href="/search" passHref>
+          <Link to="/search">
             <MenuItem icon={<BsSearch />}>Search</MenuItem>
           </Link>
-          <Link href="/search?purpose=for-sale" passHref>
+          <Link to="/search?purpose=for-sale">
             <MenuItem icon={<FcAbout />}>Buy Property</MenuItem>
           </Link>
-          <Link href="/search?purpose=for-rent" passHref>
+          <Link to="/search?purpose=for-rent">
             <MenuItem icon={<FiKey />}>Rent Property</MenuItem>
           </Link>
         </MenuList>

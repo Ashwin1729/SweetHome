@@ -1,6 +1,6 @@
 import { Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { Flex, Box, Text, Button } from "@chakra-ui/react";
+import { Flex, Box, Text, Button, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { baseUrl, fetchApi } from "../utils/fetchApi";
 import Property from "./Property";
@@ -41,9 +41,11 @@ const Banner = ({
 function Homepage() {
   const [propForSale, setPropForSale] = useState([]);
   const [propForRent, setPropForRent] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const propertyForSale = await fetchApi(
         `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
       );
@@ -53,11 +55,12 @@ function Homepage() {
 
       setPropForSale(propertyForSale?.hits);
       setPropForRent(propertyForRent?.hits);
+      setLoading(false);
     };
     fetchData();
   }, []);
 
-  console.log(propForSale, propForRent);
+  // console.log(propForSale, propForRent);
 
   return (
     <Box>
@@ -71,11 +74,18 @@ function Homepage() {
         linkName="/search?purpose=for-rent"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
       />
-      <Flex flexWrap="wrap">
-        {propForRent.map((property) => (
-          <Property property={property} key={property.id} />
-        ))}
-      </Flex>
+      {loading && (
+        <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+          <Spinner />
+        </Flex>
+      )}
+      {!loading && (
+        <Flex flexWrap="wrap">
+          {propForRent.map((property) => (
+            <Property property={property} key={property.id} />
+          ))}
+        </Flex>
+      )}
       <Banner
         purpose="BUY A HOME"
         title1=" Find, Buy & Own Your"
@@ -86,11 +96,18 @@ function Homepage() {
         linkName="/search?purpose=for-sale"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
       />
-      <Flex flexWrap="wrap">
-        {propForSale.map((property) => (
-          <Property property={property} key={property.id} />
-        ))}
-      </Flex>
+      {loading && (
+        <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+          <Spinner />
+        </Flex>
+      )}
+      {!loading && (
+        <Flex flexWrap="wrap">
+          {propForSale.map((property) => (
+            <Property property={property} key={property.id} />
+          ))}
+        </Flex>
+      )}
     </Box>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image } from "@chakra-ui/react";
-import { Flex, Box, Text, Icon } from "@chakra-ui/react";
+import { Flex, Box, Text, Icon, Spinner } from "@chakra-ui/react";
 import { BsFilter } from "react-icons/bs";
 import SearchFilters from "./SearchFilters";
 import { useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ import { fetchApi, baseUrl } from "../utils/fetchApi";
 const Search = (props) => {
   const [searchFilters, setSearchFilters] = useState(false);
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -28,10 +29,12 @@ const Search = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const data = await fetchApi(
         `${baseUrl}/properties/list?locationExternalIDs=${locationExternalIDs}&purpose=${purpose}&categoryExternalID=${categoryExternalID}&bathsMin=${bathsMin}&rentFrequency=${rentFrequency}&priceMin=${minPrice}&priceMax=${maxPrice}&roomsMin=${roomsMin}&sort=${sort}&areaMax=${areaMax}`
       );
       setProperties(data?.hits);
+      setLoading(false);
     };
     fetchData();
   }, [
@@ -73,7 +76,12 @@ const Search = (props) => {
           <Property property={property} key={property.id} />
         ))}
       </Flex>
-      {properties.length === 0 && (
+      {loading && (
+        <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+          <Spinner />
+        </Flex>
+      )}
+      {properties.length === 0 && !loading && (
         <Flex
           justifyContent="center"
           alignItems="center"

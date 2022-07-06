@@ -17,7 +17,7 @@ const Navbar = () => (
   <Flex p="2" borderBottom="1px" borderColor="gray.100">
     <Box fontSize="3xl" color="blue.400" fontWeight="bold">
       <Link to="/" paddingleft="2">
-        Realtor
+        Sweet Home
       </Link>
     </Box>
     <Spacer />
